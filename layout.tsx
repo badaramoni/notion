@@ -1,27 +1,40 @@
-import {Toaster} from "sonner";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { ConvexClientProvider } from "@/components/providers/convex-provider";
-import { Import } from "lucide-react";
+"use client";
 
-const inter = Inter({ subsets: ["latin"] });
+import { Spinner } from "@/components/spinner";
+import { useConvexAuth } from "convex/react";
+import { Link } from "lucide-react";
+import { redirect } from "next/dist/server/api-utils";
+import { ReactNode } from "react";
+import { Navigation } from "./_components/navigation";
 
-export const metadata: Metadata = {
-  title: "notion",
-  description: "the connect workspace ",
+const Mainlayout = ({ children }: { children: ReactNode }) => {
+    const { isAuthenticated, isLoading } = useConvexAuth();
+
+    if (isLoading) {
+      return (
+        <div className="h-full flex items-center justify-center">
+          <Spinner size="lg" />
+        </div>
+      );
+    }
+  
+    if (!isAuthenticated) {
+        return <div>
+             <Link href="/">
+             
+             </Link>
+        </div>
+      }
+      
+  
+  
+  return <div className="h-full flex dark:bg-[#1F1F1F]">
+  <Navigation/>
+    <main className="flex-1 h-full overflow-y-auto">
+    {children}
+    </main>
+    
+    </div>;
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>
-        <ConvexClientProvider>{children}</ConvexClientProvider>
-      </body>
-    </html>
-  );
-}
+export default Mainlayout;
