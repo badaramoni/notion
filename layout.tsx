@@ -1,40 +1,13 @@
-"use client";
+import React from "react";
+import { Navbar } from "./_components/navbar";
 
-import { Spinner } from "@/components/spinner";
-import { useConvexAuth } from "convex/react";
-import { Link } from "lucide-react";
-import { redirect } from "next/dist/server/api-utils";
-import { ReactNode } from "react";
-import { Navigation } from "./_components/navigation";
-
-const Mainlayout = ({ children }: { children: ReactNode }) => {
-    const { isAuthenticated, isLoading } = useConvexAuth();
-
-    if (isLoading) {
-      return (
-        <div className="h-full flex items-center justify-center">
-          <Spinner size="lg" />
-        </div>
-      );
-    }
-  
-    if (!isAuthenticated) {
-        return <div>
-             <Link href="/">
-             
-             </Link>
-        </div>
-      }
-      
-  
-  
-  return <div className="h-full flex dark:bg-[#1F1F1F]">
-  <Navigation/>
-    <main className="flex-1 h-full overflow-y-auto">
-    {children}
-    </main>
-    
-    </div>;
+const MarketingLayout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="h-full">
+        <Navbar/>
+      <main className="h-full pt-40">{children}</main>
+    </div>
+  );
 };
 
-export default Mainlayout;
+export default MarketingLayout;
